@@ -2,7 +2,7 @@
 title: "新卒一年目を振り返る"
 emoji: "🦁"
 type: "idea"
-topics: []
+topics: ["新卒", "振り返り"]
 published: false
 ---
 

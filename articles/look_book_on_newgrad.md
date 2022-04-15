@@ -155,4 +155,4 @@ MLOps, フロントエンド, infraに関してはお仕事で関わることが
 振り返りを書く試みは21卒の同期とやっているものです。
 みんなの記事を貼っておきます！ 感想ですが、みんながどんな事を考えているか分かって良いなと思っています
 
-- https://note.com/higu_engineer/n/n2ab6b5b002be#a667a604-9189-4188-bf64-d77c8c7eaa46
+- DSの同期[zerebom_3](https://twitter.com/zerebom_3)のやつ。[新卒1年目を振り返る](https://note.com/higu_engineer/n/n2ab6b5b002be#a667a604-9189-4188-bf64-d77c8c7eaa46)

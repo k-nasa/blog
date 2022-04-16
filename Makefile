@@ -1,0 +1,3 @@
+pv:
+	npx zenn preview
+

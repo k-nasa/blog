@@ -3,9 +3,8 @@ title: "GitHubのTrackedIssueの関係を可視化するツールを作った"
 emoji: "🙏"
 type: "idea"
 topics: ["cli", "githubactions", "github"]
-published: false
+published: true
 ---
-
 
 こんにちは[nasaちゃん](https://twitter.com/nasa_desu)です。
 

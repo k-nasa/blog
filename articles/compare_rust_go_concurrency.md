@@ -51,7 +51,6 @@ import "fmt"
 func main() {
 	f := func() { fmt.Println("hoge") }
 	go f()
-
 }
 ```
 

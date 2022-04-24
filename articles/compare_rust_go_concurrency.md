@@ -121,10 +121,76 @@ https://speakerdeck.com/sys1yagi/kotlin-korutinwo-li-jie-siyou
 では本題に戻りましょう。
 「goroutineはコルーチンをプログラマーが扱いやすいように抽象化したもの」という話でしたね。
 
+ここでgoroutineのサンプルコードを見てみましょう。
+このコードを見ていると停止、再開に相当するコードがないように見えるのですが、どうしてこれでコルーチンの一種と言えるのでしょうか？
 
-goroutineは軽量スレッドであるという話をよく聞きますが、goroutine本体がスレッドというより、複数のgoroutineの再開、停止を組み合わせることによってユーザー空間にスレッドを構築している。という話だと思っています。(**`goroutine`が何を指すかは公式ドキュメントに書いて有りそうですが、調べられていないです :bow:**)
+```go
+package main
 
-本記事では`go`キーワードで起動したタスクを`goroutine`と呼んでいます。`goroutine`はランタイムと密に結合しているため軽量スレッドであるとも言えそうですが、`goroutine` == コルーチン, 軽量スレッドに昇華しているのはランタイムによるものと解釈しています。
+import (
+	"fmt"
+	"time"
+)
+
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		time.Sleep(100 * time.Millisecond)
+		fmt.Println(s)
+	}
+}
+
+func main() {
+	go say("world")
+	say("hello")
+}
+```
+
+これはGoランタイムの影の努力によるものです。goでは僕らプログラマーが停止、再開のポイントを定義せずとも、ランタイムがいい感じに判定し一時停止、再開を行っているおかげです。
+
+うろ覚えですが下記の時に切り替わるはずです。
+
+- time.Sleep
+- IO
+- memory allocation
+
+先程のサンプルコードではsleepがあったのでここでタスクが切り替わっているようですね。
+
+```
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		time.Sleep(100 * time.Millisecond)  // 確かsleepでcontext switchが起きるはず
+		fmt.Println(s)
+	}
+}
+```
+
+
+### 非同期タスク
+
+続いてRustの非同期タスクについて見ていきましょう。
+
+こちらもコルーチンの一種と言えそうです。
+
+
+```rust
+use tokio::time::{sleep, Duration};
+
+async fn say(s: &str) {
+    for _ in 0..5 {
+        sleep(Duration::from_millis(100)).await;
+        println!("{}", s)
+    }
+}
+
+#[tokio::main]
+async fn main() {
+    let f1 = tokio::spawn(say("world"));
+    let f2 = tokio::spawn(say("hello"));
+
+    f1.await.unwrap();
+    f2.await.unwrap();
+}
+```
 
 ## まとめ
 

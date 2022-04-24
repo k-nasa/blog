@@ -169,14 +169,14 @@ func say(s string) {
 
 続いてRustの非同期タスクについて見ていきましょう。
 
-こちらもコルーチンの一種と言えそうです。
-
+async/awaitによる並行プログラミングではgoと違い、再開・停止ポイントをプログラマーが決めます。
 
 ```rust
 use tokio::time::{sleep, Duration};
 
 async fn say(s: &str) {
     for _ in 0..5 {
+        # 一時停止・再開ポイント
         sleep(Duration::from_millis(100)).await;
         println!("{}", s)
     }
@@ -191,6 +191,23 @@ async fn main() {
     f2.await.unwrap();
 }
 ```
+
+このサンプルコードでは、`sleep`のところに`await`と書くことで中断しています。他に実行できる非同期タスクが場合はランタイムはそちらの実行を始めます。
+
+つまりRustのasync/awaitによる並行プログラミングでは非同期タスクの中にブロッキング処理を入れてしまうと他のタスクに実行権が映らず1つのタスクがCPUを専有していまいます。
+
+例えば先程の`tokio::time::sleep`(非同期sleep)を標準ライブラリの`sleep`(同期的)を使ってしまうことで性能が低下します。
+
+```rust
+async fn say(s: &str) {
+    for _ in 0..5 {
+        std::thread::sleep(Duration::from_millis(100));
+        println!("{}", s)
+    }
+}
+```
+
+Goの`goroutine`とRustの非同期タスクではパフォーマンスへの責任をランタイムが持つのかプログラマーが持つのかという違いがありそうですね。
 
 ## まとめ
 

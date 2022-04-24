@@ -224,7 +224,12 @@ Goではランタイムがどの程度タスクを実行するかを決められ
 
 これはRust(tokio)とGoであまり違いがないようなのでGoのランタイムを見ていきましょう。その後細かな違いについて説明していけたらと思います。
 
-タスクは基本的にM個のOSスレッド上に構築されたN個のグリーンスレッド上で実行されます。
+**ここで説明しているランタイムの動作は古いものかもしれません。ご注意を**
+
+タスクは基本的にM個のOSスレッド上に構築されたN個のグリーンスレッド上で実行されます。(M:Nモデルと呼ばれていますね)
+
+
+ランタイムは起動時にCPU数と同じ数だけのOSスレッドを起動します。これらOSスレッド
 
 ## まとめ
 
@@ -237,9 +242,12 @@ Goではランタイムがどの程度タスクを実行するかを決められ
   - Rustはタスク本体を盗み合っているよ
 
 
-## 参考文献
+## 参考文献、関連資料
 
-- Reducing tail latencies with automatic cooperative task yielding https://tokio.rs/blog/2020-04-preemption
+- [Reducing tail latencies with automatic cooperative task yielding](https://tokio.rs/blog/2020-04-preemption)
+- [Kotlin コルーチンを 理解しよう](https://speakerdeck.com/sys1yagi/kotlin-korutinwo-li-jie-siyou)
+- [Go言語による並行処理](https://www.oreilly.co.jp/books/9784873118468/)
+- [並行プログラミング入門](https://www.oreilly.co.jp/books/9784873119595/)
 
 ---
 

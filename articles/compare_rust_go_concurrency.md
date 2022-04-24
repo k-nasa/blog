@@ -255,8 +255,8 @@ Goではランタイムがどの程度タスクを実行するかを決められ
 
 - [Reducing tail latencies with automatic cooperative task yielding](https://tokio.rs/blog/2020-04-preemption)
 - [Kotlin コルーチンを 理解しよう](https://speakerdeck.com/sys1yagi/kotlin-korutinwo-li-jie-siyou)
-- [Go言語による並行処理](https://www.oreilly.co.jp/books/9784873118468/)
-- [並行プログラミング入門](https://www.oreilly.co.jp/books/9784873119595/)
+- [Go言語による並行処理](https://www.oreilly.co.jp/books/9784873118468)
+- [並行プログラミング入門](https://www.oreilly.co.jp/books/9784873119595)
 
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: "GoとRust - 並行プログラミング編"
-emoji: "🦀"
-type: "tech" # tech: 技術記事 / idea: アイデア
+emoji: "📚"
+type: "tech"
 topics: ["rust", "go", "並行処理", "並列処理"]
-published: false
+published: true
 ---
 
 ## はじめに

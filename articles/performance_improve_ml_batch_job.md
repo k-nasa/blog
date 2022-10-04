@@ -3,7 +3,7 @@ title: "機械学習バッチジョブの実行時間を4時間から1時間に�
 emoji: "📚"
 type: "tech"
 topics: ["python", "機械学習"]
-published: false
+published: true
 ---
 
 こんにちは[nasa](https://twitter.com/nasa_desu)です。

@@ -1,6 +1,6 @@
 ---
 title: "GitHubのTrackedIssueの関係を可視化するツールを作った"
-emoji: "🙏"
+emoji: "🐦"
 type: "idea"
 topics: ["cli", "githubactions", "github"]
 published: true

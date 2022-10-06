@@ -92,12 +92,6 @@ https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid
 
 mermaidテキストではなく画像を出力することで解決できそうなので今後改善していきたいと思います。
 
-## 技術的な話は省略
-
-特に面白みがないので省略します。
-
-普通にRustでGitHub apiを叩いてmermaidを組み立てています。actions/github-scriptを書いてワークフローを定義しています。今後issue bodyのパースしてTrackedIssue以外の関係も可視化したかったのでCLIとワークフローを分けています。
-
 ## まとめ
 
 - TrackedIssueはいいぞ
@@ -106,7 +100,5 @@ mermaidテキストではなく画像を出力することで解決できそう�
   - mermaidに依存しないようにしていきたいね
   - TrackedIssueだけでなくissueのリンクやタスクリストもいい感じに表示したいね
 
-
-良さそうだったらスターをポッチと付けてね！めちゃくちゃ励みにまります
 
 https://github.com/k-nasa/gid

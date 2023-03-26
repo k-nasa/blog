@@ -1,14 +1,13 @@
 ---
-title: "go_buildの話"
-emoji: "🕌"
+title: "go buildは何をやっている？"
+emoji: "💻"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [go]
-published: false
+published: true
 ---
 
 goコンパイラはソースコードから実行ファイルを作ってくれていますが裏側で何をしているのか謎です。
 `go build`コマンドの裏側をログ出力を元に理解していきます。
-
 
 ## ログを出力する
 

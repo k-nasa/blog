@@ -222,7 +222,7 @@ cd /usr/local/go/src/internal/cpu
 
 - ヘッダファイル作成
 - go tool asmを実行してsymabis ファイルを作成
-- compileをを実行(このときヘッダファイルとsymabisを仕様)
+- compileを実行(このときヘッダファイルとsymabisを使用)
 - go tool asmを実行してアセンブリファイルをオブジェクトファイルにする(ここではcpu.sとcpu_x86.s)
 - packを実行してオブジェクトファイルをアーカイブファイルに追加する
 

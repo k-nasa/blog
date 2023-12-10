@@ -1,6 +1,6 @@
 ---
 title: ""Rustを使ったOS開発 - 普段のRustと同じ様にOSを実装したい"
-emoji: ":crab:"
+emoji: ""
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: []
 published: false

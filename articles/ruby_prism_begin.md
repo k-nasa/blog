@@ -176,15 +176,13 @@ end
 end
 ```
 
+デフォルトパーサーのエラーメッセージ`unexpected end`は分かりやすいですがエラー箇所把握がちょっとムズい。
+Prismのエラー箇所は的を射ているがエラーメッセージ`cannot parse the expression`は不正確ですね。endキーワードではなく式としてパースされているのでしょうか
 
 | Default parser | Prism |
 | --- | --- |
 | ![](/images/ruby_prism_begin/r_endmore.png)| ![](/images/ruby_prism_begin/p_endmore.png) |
 
-デフォルトパーサーのエラーメッセージ`unexpected end`は分かりやすいですがエラー箇所把握がちょっとムズい。
-Prismのエラー箇所は的を射ているが`cannot parse the expression`が分かりづらい
-
-どちらかが確実に良いとはいえなさそう？まあトントンと行ったところでしょうか。
 
 
 ### 閉じ括弧忘れ
@@ -202,6 +200,11 @@ test(
 Prismに関しては２つ目の構文エラーに関しても扱えているのでこの点はめちゃ良いですねー
 
 
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_endmore.png)| ![](/images/ruby_prism_begin/p_endmore.png) |
+
+
 ### 区切り文字忘れ
 
 
@@ -209,11 +212,14 @@ Prismに関しては２つ目の構文エラーに関しても扱えているの
 array = [1, 2, 3, 4 5]
 ```
 
-これはPrismが良いですねー。メッセージも指摘箇所も分かりやすいですね
+Prismのエラーメッセージも指摘箇所も非常に分かりやすいですね
+
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_delimiter.png)| ![](/images/ruby_prism_begin/p_delimiter.png) |
 
 
 ### 変数名タイポ(存在しない変数名)
-
 
 ```ruby
 a = 1
@@ -223,14 +229,25 @@ puts aa
 おお！これはデフォルトパーサーが良い感じですね。
 
 
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_typo_variable.png)| ![](/images/ruby_prism_begin/p_typo_variable.png) |
+
+
+続いてメソッド名のタイポもやってみます。
+
 ```ruby
-def test
+def tes
 end
 
 test1
 ```
 
-関数も同様デフォルトパーサーのが良い感じですねー
+関数も同様デフォルトパーサーが良い感じですねー
+
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_typo_method.png)| ![](/images/ruby_prism_begin/p_typo_method.png) |
 
 
 ### メソッド呼び出しのドットだけ書いた
@@ -245,10 +262,13 @@ test.
 おっと。Prismはクラッシュしてしまいましたね。。。
 PRチャンスかもしれません。
 
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_dot.png)| ![](/images/ruby_prism_begin/p_dot.png) |
+
 ### インデントを考慮してくれるか
 
 このようなコードではインデントを考慮するとifに対するendが無いと言えます。この辺考慮してくれるのでしょうか
-
 
 ```ruby
 def test
@@ -260,6 +280,11 @@ end
 まあ予想はしていましたが厳しいようですね。。。
 
 
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_indent.png)| ![](/images/ruby_prism_begin/p_indent.png) |
+
+
 ### その他
 
 ここで扱ったのはほんの一部だと思います。
@@ -268,385 +293,3 @@ end
 
 https://github.com/ruby/prism/blob/3f00d9f0743c948f2c1768dce4716ff499b927ce/test/prism/errors_test.rb
 
----
-
-
-
-- タイトル: Ruby 3.3で導入されたPrismを使うとRubyを使った開発体験がどう変わるのか
-- Prismとは
-    - Ruby 3.3から導入されたパーサー
-    - 前身はYARP
-    - Prismは下記を目的として開発されている
-        - エラートレラント
-            - パース時に問題が発生した場合でも可能な限り意味のある結果を返却すること
-        - ポータビリティ
-            - 複数のRuby処理系、型チェッカー、lspなどそれぞれにパーサーが存在している状態
-            - これらを1つのパーサーで置き換えられるようにしたい
-        - メンテナンス性
-            - ポータビリティの結果、多くのコミュニティーで長く使われてる
-            - 結果としてメンテナンス性の重要度が上がっている
-- 本記事ではエラートレラントについて扱う
-    - Rubyユーザーの開発体験に最も影響を与えるのはエラートレラントだと思われる
-        - パフォーマンスの影響も0ではないが僕自身課題に感じたことはないため省略
-    - エラートレラントとは
-- 動かし方
-    - `--parser=prism`オプションを付与することで試すことが出来る
-    - そのはずだったのだが、最新のRuby 3.3.0では構文エラーがあった際にクラッシュする
-    - Rubyのmasterブランチで動作させる必要がある(minirubyでも可能)
-- Rubyでよくある構文エラーに対してどの程度対応できるのか
-    - [x] endを漏らした
-    - [x] 閉じカッコ
-    - [x] 配列、ハッシュの閉じカッコ
-    - [x] 配列、ハッシュの区切り文字
-    - [x] 存在しない変数、メソッド
-    - [x] メソッド呼び出しのドットだけ書いた
-    - [ ] インデントを見ているのか
-    - [ ] 複数エラー
-- これらのエラーメッセージがどのように作られているのか
-
-
-## end忘れ
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-Unmatched keyword, missing `end' ?
-> 1  def example_method
-
-test.rb:5: syntax error, unexpected end-of-input, expecting `end' or dummy end (SyntaxError)
-```
-
-</td>
-<td>
-
-```sh
-test.rb: syntax errors found (SyntaxError)
-  3 |     puts "Hello"
-  4 |   end
-> 5 |
-    | ^ expected an `end` to close the `def` statement
-    | ^ cannot parse the expression
-```
-
-</td>
-</tr>
-</table>
-
-
-## endが多い
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-Unmatched `end', missing keyword (`do', `def`, `if`, etc.) ?
-> 1  def example_method
-> 3  end
-> 4  end
-
-test.rb:4: syntax error, unexpected `end' (SyntaxError)
-```
-
-</td>
-<td>
-
-```sh
-test.rb: syntax errors found (SyntaxError)
-  2 |   puts "Hello"
-  3 | end
-> 4 | end
-    | ^ cannot parse the expression
-```
-
-</td>
-</tr>
-</table>
-
-
-## 閉じ括弧忘れ
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-Unmatched `(', missing `)' ?
-> 1  def test(
-> 3  end
-> 5  test(
-
-test.rb:2: syntax error, unexpected string literal, expecting ')' (SyntaxError)
-  puts "test"
-       ^
-```
-
-</td>
-<td>
-
-```sh
-test.rb: syntax errors found (SyntaxError)
-  1 | def test(
-> 2 |   puts "test"
-    |       ^ expected a `)` to close the parameters
-  3 | end
-  4 |
-> 5 | test(
-    |      ^ expected a `)` to close the arguments
-  6 |
-```
-
-</td>
-</tr>
-</table>
-
-## 区切り文字
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-expected a `,` separator for the array elements
-> 1  array = [1, 2, 3, 4 5]
-
-test.rb:1: syntax error, unexpected integer literal, expecting ']' (SyntaxError)
-array = [1, 2, 3, 4 5]
-```
-
-</td>
-<td>
-
-```sh
-test.rb: syntax errors found (SyntaxError)
-> 1 | array = [1, 2, 3, 4 5]
-    |                    ^ expected a `,` separator for the array elements
-```
-
-</td>
-</tr>
-</table>
-
-
-## 存在しない変数
-
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-test.rb:2:in `<main>': undefined local variable or method `aa' for main (NameError)
-
-puts aa
-     ^^
-Did you mean?  a
-```
-
-</td>
-<td>
-
-```sh
-/Users/wantedly564/lab/sandbox/ruby_sandobx/test.rb:1:in `<compiled>': undefined local variable or method `aa' for main (NameError)
-```
-
-</td>
-</tr>
-</table>
-
-## 存在しないメソッド
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-test.rb:4:in `<main>': undefined local variable or method `test1' for main (NameError)
-
-test1
-^^^^^
-Did you mean?  test
-```
-
-</td>
-<td>
-
-```sh
-/Users/wantedly564/lab/sandbox/ruby_sandobx/test.rb:3:in `<compiled>': undefined local variable or method `test1' for main (NameError)
-```
-
-</td>
-</tr>
-</table>
-
-
-
-## 動作するコード例
-
-
-<table>
-<tr>
-<td> Status </td> <td> Response </td>
-</tr>
-<tr>
-<td>
-
-```sh
-:) % bat main.rb
-───────┬──────────────────────────────
-       │ File: main.rb
-───────┼──────────────────────────────
-   1   │ class Foo
-   2   │   def initialize(
-   3   │     true
-   4   │   end
-   5   │
-───────┴──────────────────────────────
-
-:) % ruby --parser=prism main.rb
-main.rb: syntax errors found (SyntaxError)
-  1 | class Foo
-> 2 |   def initialize(
-    |                  ^ expected a `)` to close the parameters
-  3 |     true
-  4 |   end
-> 5 |
-    | ^ expected an `end` to close the `class` statement
-    | ^ cannot parse the expression
-```
-
-</td>
-<td>
-
-```
-:) % bat main.rb
-───────┬──────────────────────────────
-       │ File: main.rb
-───────┼──────────────────────────────
-   1   │ class Foo
-   2   │   def initialize(
-   3   │     true
-   4   │   end
-───────┴──────────────────────────────
-
-:) % /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
-SEGV received in BUS handler
-zsh: abort      /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
-```
-
-</td>
-</tr>
-</table>
-
-### メソッド呼び出しのドットだけ書いた
-
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-expected a method name
-> 1  test.
-> 2
-```
-
-</td>
-<td>
-
-```sh
-ruby 3.4.0dev (2024-01-19T11:02:59Z master 7b0f6d6d94) +PRISM [arm64-darwin22]
-
--- Crash Report log information --------------------------------------------
-   See Crash Report log file in one of the following locations:
-     * ~/Library/Logs/DiagnosticReports
-     * /Library/Logs/DiagnosticReports
-   for more details.
-Don't forget to include the above Crash Report log file in bug reports.
-```
-
-</td>
-</tr>
-</table>
-
-### インデント
-
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-Unmatched keyword, missing `end' ?
-> 1  def test
-> 2    if true
-> 4  end
-
-test.rb:5: syntax error, unexpected end-of-input, expecting `end' or dummy end (SyntaxError)
-```
-
-</td>
-<td>
-
-```sh
-test.rb: syntax errors found (SyntaxError)
-  3 |     puts "true"
-  4 | end
-> 5 |
-    | ^ expected an `end` to close the `def` statement
-    | ^ cannot parse the expression
-```
-
-</td>
-</tr>
-</table>
-
----
-
-
-
-<table>
-<tr>
-<td> default parser </td> <td> Prism </td>
-</tr>
-<tr>
-<td>
-
-```sh
-```
-
-</td>
-<td>
-
-```sh
-```
-
-</td>
-</tr>
-</table>

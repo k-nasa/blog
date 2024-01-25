@@ -83,66 +83,6 @@ Prism開発者が公開しているこちらのスライドを見るとより多
 
 https://speakerdeck.com/kddnewton/prism
 
-## Prismの動かし方
-
-rubyインタプリタ経由で動かすのに一工夫必要だったのでそれを紹介します。(本題じゃなくてごめんなさい)
-
-`ruby --parser=prism`とオプションを指定することで利用はできるんですが、構文エラーが発生した際にはクラッシュしてしまう状態です。。。(このバグは3.3.1で修正予定みたい)
-
-なのでmasterのrubyを利用する必要があります。
-実際に動かしてみたい人はこちらのドキュメントを頼りに最新のRubyをビルドしてみて下さい！
-
-https://docs.ruby-lang.org/en/master/contributing/building_ruby_md.html
-
-
-それから実はもう一つハマりポイントがあります。ファイルの末尾の空行の有無によって挙動が変わるため注意が必要です。
-空行が存在する場合はきちんと動いてくれるんですが、空行があるとハングしてしまいました。これもおそらく3.3.1で修正されると思います。
-
-
-### 動くコード
-
-```ruby
-:) % bat main.rb
-───────┬──────────────────────────────
-       │ File: main.rb
-───────┼──────────────────────────────
-   1   │ class Foo
-   2   │   def initialize(
-   3   │     true
-   4   │   end
-   5   │
-───────┴──────────────────────────────
-
-:) % ruby --parser=prism main.rb
-main.rb: syntax errors found (SyntaxError)
-  1 | class Foo
-> 2 |   def initialize(
-    |                  ^ expected a `)` to close the parameters
-  3 |     true
-  4 |   end
-> 5 |
-    | ^ expected an `end` to close the `class` statement
-    | ^ cannot parse the expression
-```
-
-### 動かないコード
-
-```
-:) % bat main.rb
-───────┬──────────────────────────────
-       │ File: main.rb
-───────┼──────────────────────────────
-   1   │ class Foo
-   2   │   def initialize(
-   3   │     true
-   4   │   end
-───────┴──────────────────────────────
-
-:) % /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
-SEGV received in BUS handler
-zsh: abort      /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
-```
-
 ## Rubyを記述する際の開発者体験がどれくらい向上しているのか？
 
 本題です。ではPrismのエラートレラントによってRubyを使用した開発体験がどの程度向上するのか見ていきましょう。
@@ -287,9 +227,73 @@ end
 
 ### その他
 
-ここで扱ったのはほんの一部だと思います。
+ここで扱ったのはほんの一部になります。
 
 その他に対応しているエラーについてはPrismのテストコードを眺めてみて下さい！
 
 https://github.com/ruby/prism/blob/3f00d9f0743c948f2c1768dce4716ff499b927ce/test/prism/errors_test.rb
+
+
+---
+
+
+### Prismの動かし方
+
+rubyインタプリタ経由で動かすのに一工夫必要だったのでそれを紹介します。(本題じゃなくてごめんなさい)
+
+`ruby --parser=prism`とオプションを指定することで利用はできるんですが、構文エラーが発生した際にはクラッシュしてしまう状態です。。。(このバグは3.3.1で修正予定みたい)
+
+なのでmasterのrubyを利用する必要があります。
+実際に動かしてみたい人はこちらのドキュメントを頼りに最新のRubyをビルドしてみて下さい！
+
+https://docs.ruby-lang.org/en/master/contributing/building_ruby_md.html
+
+
+それから実はもう一つハマりポイントがあります。ファイルの末尾の空行の有無によって挙動が変わるため注意が必要です。
+空行が存在する場合はきちんと動いてくれるんですが、空行があるとハングしてしまいました。これもおそらく3.3.1で修正されると思います。
+
+
+### Prismが動作するプログラム(空行あり)
+
+```ruby
+:) % bat main.rb
+───────┬──────────────────────────────
+       │ File: main.rb
+───────┼──────────────────────────────
+   1   │ class Foo
+   2   │   def initialize(
+   3   │     true
+   4   │   end
+   5   │
+───────┴──────────────────────────────
+
+:) % ruby --parser=prism main.rb
+main.rb: syntax errors found (SyntaxError)
+  1 | class Foo
+> 2 |   def initialize(
+    |                  ^ expected a `)` to close the parameters
+  3 |     true
+  4 |   end
+> 5 |
+    | ^ expected an `end` to close the `class` statement
+    | ^ cannot parse the expression
+```
+
+### Prismがクラッシュするプログラム(空行なし)
+
+```
+:) % bat main.rb
+───────┬──────────────────────────────
+       │ File: main.rb
+───────┼──────────────────────────────
+   1   │ class Foo
+   2   │   def initialize(
+   3   │     true
+   4   │   end
+───────┴──────────────────────────────
+
+:) % /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
+SEGV received in BUS handler
+zsh: abort      /Users/wantedly564/lab/oss/ruby/build/ruby --parser=prism main.rb
+```
 

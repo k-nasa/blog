@@ -160,6 +160,10 @@ def example_method
 
 これはPrismのほうが対応が必要な箇所が分かりやすいですね
 
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_endless.png)| ![](/images/ruby_prism_begin/p_endless.png) |
+
 ### endが多い
 
 ということで先程出たendが一つ多い問題
@@ -171,6 +175,11 @@ def example_method
 end
 end
 ```
+
+
+| Default parser | Prism |
+| --- | --- |
+| ![](/images/ruby_prism_begin/r_endmore.png)| ![](/images/ruby_prism_begin/p_endmore.png) |
 
 デフォルトパーサーのエラーメッセージ`unexpected end`は分かりやすいですがエラー箇所把握がちょっとムズい。
 Prismのエラー箇所は的を射ているが`cannot parse the expression`が分かりづらい

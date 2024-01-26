@@ -1,8 +1,8 @@
 ---
 title: "新しいRubyパーサーPrism利用時の開発体験の変化"
 emoji: "👻"
-type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
+type: "tech"
+topics: ["ruby", "prism", "パーサー"]
 published: false
 ---
 

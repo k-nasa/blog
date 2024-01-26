@@ -139,7 +139,7 @@ Prismに関しては２つ目の構文エラーに関しても扱えているの
 
 | Default parser | Prism |
 | --- | --- |
-| ![](/images/ruby_prism_begin/r_endmore.png)| ![](/images/ruby_prism_begin/p_endmore.png) |
+| ![](/images/ruby_prism_begin/r_kakko.png)| ![](/images/ruby_prism_begin/p_kakko.png) |
 
 
 ### 区切り文字忘れ

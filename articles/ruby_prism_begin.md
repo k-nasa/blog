@@ -3,7 +3,7 @@ title: "新しいRubyパーサーPrism利用時の開発体験の変化"
 emoji: "👻"
 type: "tech"
 topics: ["ruby", "prism", "パーサー"]
-published: false
+published: true
 ---
 
 ## この記事で扱っていること

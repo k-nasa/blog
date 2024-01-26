@@ -369,7 +369,7 @@ https://docs.ruby-lang.org/en/master/contributing/building_ruby_md.html
 
 ### Prismが動作するプログラム(空行あり)
 
-```ruby
+```sh
 :) % bat main.rb
 ───────┬──────────────────────────────
        │ File: main.rb
@@ -395,7 +395,7 @@ main.rb: syntax errors found (SyntaxError)
 
 ### Prismがクラッシュするプログラム(空行なし)
 
-```
+```sh
 :) % bat main.rb
 ───────┬──────────────────────────────
        │ File: main.rb
